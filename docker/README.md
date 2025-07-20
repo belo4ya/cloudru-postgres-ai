@@ -38,7 +38,7 @@ ghcr.io/cloudnative-pg/postgresql   16.9-bookworm      9d655db43336   13 hours a
 
 ```shell
 sudo su
-apt-get update && apt-get upgrade && apt install -y git make
+apt-get update && apt-get upgrade -y && apt install -y git make
 
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 sudo apt-get install -y ca-certificates curl
