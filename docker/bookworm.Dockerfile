@@ -114,7 +114,7 @@ RUN tar -xf lantern-${LANTERN_VERSION}.tar \
     && cd .. && rm -rf lantern-${LANTERN_VERSION}
 
 # --------------------- https://github.com/paradedb/paradedb/tree/main/pg_search
-ADD https://github.com/paradedb/paradedb/releases/download/$PG_SEARCH_VERSION/postgresql-${PG_MAJOR}-pg-search_${PG_SEARCH_VERSION#"v"}-1PARADEDB-bookworm_${TARGETARCH}.deb /tmp/pg_search.deb
+ADD https://github.com/paradedb/paradedb/releases/download/v$PG_SEARCH_VERSION/postgresql-${PG_MAJOR}-pg-search_${PG_SEARCH_VERSION#"v"}-1PARADEDB-bookworm_${TARGETARCH}.deb /tmp/pg_search.deb
 RUN apt-get install -y /tmp/pg_search.deb \
     && rm -f /tmp/pg_search.deb
 

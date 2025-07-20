@@ -1,43 +1,14 @@
-IMAGE_NAME  ?= belo4ya/cnpg-postgresql
-BASE_TAG    ?= 16.9-bookworm-ai
-GIT_SHA     ?= $(shell git rev-parse --short=12 HEAD 2>/dev/null || echo unknown)
-BUILD_DATE  ?= $(shell date -u +%Y%m%d-%H%M%S)
+IMAGE_NAME ?= belo4ya/cnpg-postgresql
+PLATFORMS  ?= linux/amd64,linux/arm64
+PUSH       ?= true
 
-#IMAGE_TAG   = $(BASE_TAG)-$(GIT_SHA)-$(BUILD_DATE)
-IMAGE_TAG   ?= $(BASE_TAG)
+PUSH_FLAG = $(if $(filter true,$(PUSH)),--push,)
 
-DOCKERFILE  ?= bookworm.Dockerfile
-PLATFORMS   ?= linux/amd64,linux/arm64
-IMAGE       ?= $(IMAGE_NAME):$(IMAGE_TAG)
-CACHE_IMAGE ?= $(IMAGE)-buildcache
+all:
+	docker buildx bake all --load $(PUSH_FLAG)
 
-BUILD_ARGS  ?=
-BUILD_FLAGS = -f $(DOCKERFILE) $(BUILD_ARGS)
-
-.PHONY: all
-all: build
-
-.PHONY: build
-build:
-	docker build $(BUILD_FLAGS) -t $(IMAGE) .
-
-.PHONY: release
-release:
-	docker buildx build $(BUILD_FLAGS) \
-	  --platform $(PLATFORMS) \
-	  -t $(IMAGE) \
-	  --push \
-	  --cache-from=type=registry,ref=$(CACHE_IMAGE) \
-	  --cache-to=type=registry,ref=$(CACHE_IMAGE),mode=max .
-
-.PHONY: nocache-release
-nocache-release:
-	docker buildx build $(BUILD_FLAGS) \
-	  --no-cache \
-	  --platform $(PLATFORMS) \
-	  -t $(IMAGE) \
-	  --push \
-	  --cache-to=type=registry,ref=$(CACHE_IMAGE),mode=max .
+pg15 pg16 pg17:
+	docker buildx bake $@ --load $(PUSH_FLAG)
 
 .PHONY: builder
 builder:
@@ -47,3 +18,24 @@ builder:
 .PHONY: rm-builder
 rm-builder:
 	docker buildx rm multi
+
+#=======================================================================================================================
+#=======================================================================================================================
+
+IMAGE_NAME  ?= belo4ya/cnpg-postgresql
+BASE_TAG    ?= 16.9-bookworm-ai
+GIT_SHA     ?= $(shell git rev-parse --short=12 HEAD 2>/dev/null || echo unknown)
+BUILD_DATE  ?= $(shell date -u +%Y%m%d-%H%M%S)
+
+#IMAGE_TAG   = $(BASE_TAG)-$(GIT_SHA)-$(BUILD_DATE)
+IMAGE_TAG   ?= $(BASE_TAG)
+
+DOCKERFILE  ?= bookworm.Dockerfile
+IMAGE       ?= $(IMAGE_NAME):$(IMAGE_TAG)
+
+BUILD_ARGS  ?=
+BUILD_FLAGS = -f $(DOCKERFILE) $(BUILD_ARGS)
+
+.PHONY: build
+build:
+	docker build $(BUILD_FLAGS) -t $(IMAGE) .
