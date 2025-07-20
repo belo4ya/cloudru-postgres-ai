@@ -72,27 +72,23 @@ RUN apt-get install -y postgresql-${PG_MAJOR}-pgvector=$PGVECTOR_VERSION
 # 450MB before stripping, 12MB after
 ADD https://github.com/tensorchord/pgvecto.rs/releases/download/$PGVECTO_RS_VERSION/vectors-pg${PG_MAJOR}_${PGVECTO_RS_VERSION#"v"}_${TARGETARCH}.deb /tmp/pgvectors.deb
 RUN apt-get install -y /tmp/pgvectors.deb \
-    && rm -f /tmp/pgvectors.deb \
-    && strip --strip-unneeded "/usr/lib/postgresql/${PG_MAJOR}/lib/vectors.so"
+    && rm -f /tmp/pgvectors.deb
 
 # --------------------- https://github.com/tensorchord/VectorChord
 # 93MB before stripping, 3.5MB after
 ADD https://github.com/tensorchord/VectorChord/releases/download/$VECTORCHORD_VERSION/postgresql-${PG_MAJOR}-vchord_${VECTORCHORD_VERSION#"v"}-1_${TARGETARCH}.deb /tmp/vchord.deb
 RUN apt-get install -y /tmp/vchord.deb \
-    && rm -f /tmp/vchord.deb \
-    && strip --strip-unneeded "/usr/lib/postgresql/${PG_MAJOR}/lib/vchord.so"
+    && rm -f /tmp/vchord.deb
 
 # --------------------- https://github.com/tensorchord/pg_tokenizer.rs
 ADD https://github.com/tensorchord/pg_tokenizer.rs/releases/download/$PG_TOKENIZER_VERSION/postgresql-${PG_MAJOR}-pg-tokenizer_${PG_TOKENIZER_VERSION}-1_${TARGETARCH}.deb /tmp/pg_tokenizer.deb
 RUN apt-get install -y /tmp/pg_tokenizer.deb \
-    && rm -f /tmp/pg_tokenizer.deb \
-    && strip --strip-unneeded "/usr/lib/postgresql/${PG_MAJOR}/lib/pg_tokenizer.so"
+    && rm -f /tmp/pg_tokenizer.deb
 
 # --------------------- https://github.com/tensorchord/VectorChord-bm25
 ADD https://github.com/tensorchord/VectorChord-bm25/releases/download/$VECTORCHORD_BM25_VERSION/postgresql-${PG_MAJOR}-vchord-bm25_${VECTORCHORD_BM25_VERSION}-1_${TARGETARCH}.deb /tmp/vchord_bm25.deb
 RUN apt-get install -y /tmp/vchord_bm25.deb \
-    && rm -f /tmp/vchord_bm25.deb \
-    && strip --strip-unneeded "/usr/lib/postgresql/${PG_MAJOR}/lib/vchord_bm25.so"
+    && rm -f /tmp/vchord_bm25.deb
 
 # --------------------- https://github.com/timescale/pgvectorscale
 RUN git clone --branch ${PGVECTORSCALE_VERSION} https://github.com/timescale/pgvectorscale \
@@ -229,6 +225,7 @@ FROM ghcr.io/cloudnative-pg/postgresql:$CNPG_TAG
 
 COPY --from=trimmed / /
 
+ARG CNPG_TAG=16.9-bookworm
 ARG PGVECTOR_VERSION
 ARG PGVECTO_RS_VERSION
 ARG VECTORCHORD_VERSION
@@ -262,6 +259,8 @@ LABEL ru.cloud.postgresql.cnpg_tag="${CNPG_TAG}" \
       ru.cloud.postgresql.ext.pgai="${PGAI_VERSION}" \
       ru.cloud.postgresql.ext.plpython3u="${PLPYTHON3U_VERSION}"
 
+USER root
+
 RUN set -eu; \
     mkdir -p /opt/cloudru/postgresql; \
     { \
@@ -282,3 +281,5 @@ RUN set -eu; \
       echo "PGAI_VERSION=${PGAI_VERSION}"; \
       echo "PLPYTHON3U_VERSION=${PLPYTHON3U_VERSION}"; \
     } > /opt/cloudru/postgresql/build-info.txt
+
+USER postgres
