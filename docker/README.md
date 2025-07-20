@@ -31,7 +31,7 @@ ghcr.io/cloudnative-pg/postgresql   16.9-bookworm      9d655db43336   13 hours a
 | [VectorChord-bm25](https://github.com/tensorchord/VectorChord-bm25)           |      | 0.2.1   |       |
 | Зависимости                                                                   |      |         |       |
 | [citusdata/pg_cron](https://github.com/citusdata/pg_cron)                     |      | 1.6.5   |       |
-| [pgmq/pgmq](https://github.com/pgmq/pgmq)                                     |      | 1.6.0   |       |
+| [pgmq/pgmq](https://github.com/pgmq/pgmq)                                     |      | 1.6.1   |       |
 | [plpython3u](https://www.postgresql.org/docs/current/plpython.html)           |      | 16.9    |       |
 
 Сборка:
