@@ -33,5 +33,6 @@ sudo apt-get update -y
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 git clone https://github.com/belo4ya/cloudru-postgres-ai.git && cd cloudru-postgres-ai/docker
+docker login -u belo4ya
 make builder release
 ```
