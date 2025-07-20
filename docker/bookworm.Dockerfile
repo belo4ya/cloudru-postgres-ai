@@ -48,6 +48,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     ca-certificates gnupg1 gpg gpg-agent locales lsb-release \
 	curl wget unzip jq git
 
+RUN git config --global advice.detachedHead false
+
 RUN apt-get install -y postgresql-server-dev-${PG_MAJOR}
 
 ENV BUILD_PACKAGES="binutils cmake devscripts equivs gcc git gpg gpg-agent libc-dev libc6-dev libkrb5-dev libperl-dev libssl-dev lsb-release make patchutils python3-dev wget libsodium-dev"
