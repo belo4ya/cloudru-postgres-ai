@@ -260,7 +260,7 @@ LABEL ru.cloud.postgresql.cnpg_tag="${CNPG_TAG}" \
       ru.cloud.postgresql.ext.pgmq="${PGMQ_VERSION}" \
       ru.cloud.postgresql.ext.pgvectorscale="${PGVECTORSCALE_VERSION}" \
       ru.cloud.postgresql.ext.pgai="${PGAI_VERSION}" \
-      ru.cloud.postgresql.ext.plpython3u="${PLPYTHON3U_VERSION}" \
+      ru.cloud.postgresql.ext.plpython3u="${PLPYTHON3U_VERSION}"
 
 RUN set -eu; \
     mkdir -p /opt/cloudru/postgresql; \

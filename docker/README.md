@@ -18,7 +18,7 @@ ghcr.io/cloudnative-pg/postgresql   16.9-bookworm      9d655db43336   13 hours a
 Сборка:
 ```shell
 sudo su
-apt-get update && apt-get upgrade
+apt-get update && apt-get upgrade && apt install -y git make
 
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 sudo apt-get install -y ca-certificates curl
@@ -33,5 +33,5 @@ sudo apt-get update -y
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 git clone https://github.com/belo4ya/cloudru-postgres-ai.git && cd cloudru-postgres-ai/docker
-make release
+make builder release
 ```
