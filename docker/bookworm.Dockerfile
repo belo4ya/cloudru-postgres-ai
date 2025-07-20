@@ -201,7 +201,7 @@ FROM builder AS trimmed
 ENV BUILD_PACKAGES="binutils cmake devscripts equivs gcc git gpg gpg-agent libc-dev libc6-dev libkrb5-dev libperl-dev libssl-dev lsb-release make patchutils python3-dev wget libsodium-dev"
 ENV BUILD_PACKAGES="$BUILD_PACKAGES clang pkg-config build-essential zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libffi-dev tk-dev libncurses5-dev libgdbm-dev libnss3-dev"
 
-RUN uv tool uninstall cmake && \
+RUN uv tool uninstall cmake || true && \
     apt-get purge -y ${BUILD_PACKAGES} && apt-get autoremove -y && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
               /build \
