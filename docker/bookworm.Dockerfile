@@ -93,11 +93,15 @@ RUN apt-get install -y /tmp/vchord_bm25.deb \
     && rm -f /tmp/vchord_bm25.deb
 
 # --------------------- https://github.com/timescale/pgvectorscale
-RUN git clone --branch ${PGVECTORSCALE_VERSION} https://github.com/timescale/pgvectorscale \
-    && cd pgvectorscale/pgvectorscale \
-    && cargo install --locked cargo-pgrx --version $(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name == "pgrx") | .version') \
-    && cargo pgrx init --pg${PG_MAJOR} $(which pg_config) \
-    && cargo pgrx install --release
+ADD https://github.com/timescale/pgvectorscale/releases/download/$PGVECTORSCALE_VERSION/pgvectorscale-${PGVECTORSCALE_VERSION}-pg${PG_MAJOR}-${TARGETARCH}.zip /tmp/pgvectorscale.zip
+RUN unzip /tmp/pgvectorscale.zip -d /tmp \
+    && apt-get install -y /tmp/pgvectorscale-postgresql-${PG_MAJOR}_${PGVECTORSCALE_VERSION}-Linux_${TARGETARCH}.deb \
+    && rm -f /tmp/pgvectorscale*
+
+# --------------------- https://github.com/paradedb/paradedb/tree/main/pg_search
+ADD https://github.com/paradedb/paradedb/releases/download/v$PG_SEARCH_VERSION/postgresql-${PG_MAJOR}-pg-search_${PG_SEARCH_VERSION#"v"}-1PARADEDB-bookworm_${TARGETARCH}.deb /tmp/pg_search.deb
+RUN apt-get install -y /tmp/pg_search.deb \
+    && rm -f /tmp/pg_search.deb
 
 # --------------------- https://github.com/kelvich/pg_tiktoken
 RUN git clone --branch ${PG_TIKTOKEN_VERSION} https://github.com/kelvich/pg_tiktoken \
@@ -112,11 +116,6 @@ RUN tar -xf lantern-${LANTERN_VERSION}.tar \
     && cd lantern-${LANTERN_VERSION} \
     && make install \
     && cd .. && rm -rf lantern-${LANTERN_VERSION}
-
-# --------------------- https://github.com/paradedb/paradedb/tree/main/pg_search
-ADD https://github.com/paradedb/paradedb/releases/download/v$PG_SEARCH_VERSION/postgresql-${PG_MAJOR}-pg-search_${PG_SEARCH_VERSION#"v"}-1PARADEDB-bookworm_${TARGETARCH}.deb /tmp/pg_search.deb
-RUN apt-get install -y /tmp/pg_search.deb \
-    && rm -f /tmp/pg_search.deb
 
 # --------------------- https://github.com/ChuckHend/pg_vectorize
 
