@@ -1,36 +1,29 @@
 # AGENTS.md
 
 ## Build Commands
-- `make builder` - Create buildx builder
-- `make build` - Build docker image locally
-- `make pg15`, `make pg16`, `make pg17` - Build specific PostgreSQL versions
-- `make all` - Build all versions
-- `make rm-builder` - Remove buildx builder
-
-## Test Commands
-- Run a single test with: `docker run -it --rm <image-name> pg_isready`
-- Manual testing: Run container and verify extensions load
-- Connect to PostgreSQL and verify extensions are available with `\dx`
-- Test extension functionality through SQL queries
-- Validate build-info.txt contains correct version information
-
-## Lint/Format Commands
-- No specific linting/formatting tools identified
-- Follow Dockerfile best practices and CloudNativePG patterns
+- `cd extensions/docker && make builder` - Setup Docker buildx builder
+- `cd extensions/docker && make build` - Build Docker image locally
+- `cd extensions/docker && make all` - Build all images
+- `cd extensions/docker && make pg16` - Build PostgreSQL 16 image
 
 ## Code Style Guidelines
-- Follow CloudNativePG Dockerfile patterns
-- Use multi-stage builds for size optimization
-- Install packages with explicit versions
-- Strip binaries to reduce image size
-- Clean up build artifacts and caches
-- Use ARG for versioning extensions
-- Extensions should be built/installed in dedicated sections
-- Use consistent labeling for image metadata
+- No specific style guides found in codebase
+- Follow standard Dockerfile best practices
+- Use multi-stage builds where appropriate
+- Pin base image versions explicitly
+- Use .dockerignore to exclude unnecessary files
 
-## Extension Installation Patterns
-- Prefer installing from official Debian packages when available
-- For Rust-based extensions, use cargo-pgrx for installation
-- Download pre-built binaries when available from official sources
-- Always clean up temporary files after installation
-- Strip shared object files to reduce image size
+## Repository Structure
+- `extensions/docker/` - Docker build files and configurations
+- `mcp/` - Model Context Protocol configurations and samples
+
+## Testing
+- No automated test framework identified
+- Manual testing through Docker build process
+- Validate images with `docker run` commands
+
+## Important Notes
+- Project focused on PostgreSQL AI extensions in Docker
+- Uses buildx for multi-platform image building
+- Integrates with Cloud.ru services and opencode.ai
+- Check mcp/README.md for detailed usage instructions
