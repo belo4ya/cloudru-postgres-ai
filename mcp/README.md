@@ -14,7 +14,7 @@
 - [niledatabase/nile-mcp-server](https://github.com/niledatabase/nile-mcp-server)
 - [digitalocean-labs/mcp-digitalocean/dbaas](https://github.com/digitalocean-labs/mcp-digitalocean/blob/main/internal/dbaas/README.md)
 
-**Coding agent in terminal with support MCP and custom OpenAI-compatible models:**
+**Terminal coding agents with support custom OpenAI-compatible models and MCP:**
 
 - **[sst/opencode](https://github.com/sst/opencode)**
 - [continuedev/continue](https://github.com/continuedev/continue)
@@ -24,7 +24,7 @@
     - [hotovo/aider-desk](https://github.com/hotovo/aider-desk)
     - [lutzleonhardt/mcpm-aider](https://github.com/lutzleonhardt/mcpm-aider)
 
-_Not good for Natural Language to SQL. For NL2SQL see:_
+_Not ideal for natural-language-to-SQL. For NL2SQL see:_
 
 - [vanna-ai/vanna](https://github.com/vanna-ai/vanna)
 - [Dataherald/dataherald](https://github.com/Dataherald/dataherald)
@@ -33,7 +33,7 @@ _Not good for Natural Language to SQL. For NL2SQL see:_
 - [spiceai/cookbook/text-to-sql](https://github.com/spiceai/cookbook/blob/trunk/text-to-sql/README.md)
 - [AlloyDB AI natural language overview](https://cloud.google.com/alloydb/docs/ai/natural-language-overview)
 
-## Sample
+## Example
 
 ### Tools
 
@@ -50,14 +50,14 @@ _Not good for Natural Language to SQL. For NL2SQL see:_
 
 1. Create VM.
 2. Create Managed PostgreSQL. Install `pgvector` extension.
-3. Create API Key for Foundation Models.
+3. Create an API key for Foundation Models.
 4. Install [Opencode](https://opencode.ai/).
 5. Install [MCP Toolbox for Databases](https://github.com/googleapis/genai-toolbox/tree/main)
    and [DBHub](https://github.com/bytebase/dbhub).
 
 ### Step 1: Configure Opencode AI Agent
 
-Edit Opencode config at `~/.config/opencode/opencode.json`.
+Edit `~/.config/opencode/opencode.json`.
 
 1\. Set up model provider:
 
@@ -82,9 +82,9 @@ Edit Opencode config at `~/.config/opencode/opencode.json`.
 }
 ```
 
-2\. Set up MCP servers:
+2\. Add MCP servers:
 
-`<POSTGRES_PASSWORD>`
+Replace `<POSTGRES_PASSWORD>`.
 
 ```json
 {
@@ -127,7 +127,7 @@ Edit Opencode config at `~/.config/opencode/opencode.json`.
 }
 ```
 
-### Step 2: Set up your database
+### Step 2: Set up database
 
 1\. Create tables using the following commands:
 
@@ -202,29 +202,29 @@ VALUES (1, 1, 2, 2.50),
        (2, 2, 5, 1.50);
 ```
 
-### Step 3: Work with database using an AI agent
+### Step 3: Use the AI agent with the database
 
-`<PUBLIC_IP>`. No comments 😭
+Replace `<VM_PUBLIC_IP>`. NO COMMENTS 😭
 
 ```shell
-ssh -N -L 15432:10.0.0.7:5432 -i ~/.ssh/cloudru user1@<PUBLIC_IP> \
+ssh -N -L 15432:10.0.0.7:5432 -i ~/.ssh/cloudru user1@<VM_PUBLIC_IP> \
   -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3
 ```
 
-Run Opencode and pick `Qwen3-Coder-480B-A35B-Instruct` model
+Run Opencode and pick the Qwen3-Coder-480B-A35B-Instruct model:
 
 ```shell
 opencode
 /models
 ```
 
-Q:
+**Q:**
 
 ```text
 Describe storeai database schema
 ```
 
-A:
+**A:**
 
 ```text
 > I'll help you understand the storeai database schema. Let me first check if there's a database connection available and examine the schema.
@@ -273,13 +273,13 @@ The StoreAI database consists of 5 main tables:
 The schema supports a basic e-commerce system with customer management, product catalog, and shopping cart functionality, enhanced with AI capabilities through the vector embeddings in the products table.
 ```
 
-Q:
+**Q:**
 
 ```text
 List items in customer cart with cart_id=1
 ```
 
-A:
+**A:**
 
 ```text
 > I'll help you list the items in the customer cart with cart_id=1. Let me query the database to get this information.
@@ -306,13 +306,13 @@ A:
 Total items in cart: 2 Total quantity: 3 items
 ```
 
-Q:
+**Q:**
 
 ```text
-List items in customer cart with cart_id=1. Show product name, quantity, item and total price and other important information about cart and product
+List items in cart_id=1 with product name, quantity, item total, and key product/cart info.
 ```
 
-A:
+**A:**
 
 ```text
 > I'll provide detailed information about the items in customer cart with cart_id=1, including product details and cart information.
