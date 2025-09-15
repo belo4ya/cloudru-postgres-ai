@@ -24,6 +24,15 @@
     - [hotovo/aider-desk](https://github.com/hotovo/aider-desk)
     - [lutzleonhardt/mcpm-aider](https://github.com/lutzleonhardt/mcpm-aider)
 
+_Not good for Natural Language to SQL. For NL2SQL see:_
+
+- [vanna-ai/vanna](https://github.com/vanna-ai/vanna)
+- [Dataherald/dataherald](https://github.com/Dataherald/dataherald)
+- [Canner/WrenAI](https://github.com/Canner/WrenAI)
+- [defog-ai/sqlcoder](https://github.com/defog-ai/sqlcoder)
+- [spiceai/cookbook/text-to-sql](https://github.com/spiceai/cookbook/blob/trunk/text-to-sql/README.md)
+- [AlloyDB AI natural language overview](https://cloud.google.com/alloydb/docs/ai/natural-language-overview)
+
 ## Sample
 
 ### Tools
@@ -195,7 +204,7 @@ VALUES (1, 1, 2, 2.50),
 
 ### Step 3: Work with database using an AI agent
 
-`<PUBLIC_IP>`
+`<PUBLIC_IP>`. No comments 😭
 
 ```shell
 ssh -N -L 15432:10.0.0.7:5432 -i ~/.ssh/cloudru user1@<PUBLIC_IP> \
