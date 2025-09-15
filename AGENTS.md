@@ -1,29 +1,65 @@
 # AGENTS.md
 
 ## Build Commands
-- `cd extensions/docker && make builder` - Setup Docker buildx builder
-- `cd extensions/docker && make build` - Build Docker image locally
-- `cd extensions/docker && make all` - Build all images
-- `cd extensions/docker && make pg16` - Build PostgreSQL 16 image
+```bash
+# Build default PostgreSQL 16 image with AI extensions
+make build
+
+# Build specific PostgreSQL versions
+make pg15
+make pg16
+make pg17
+
+# Build all PostgreSQL versions
+make all
+
+# Build with Docker bake
+docker buildx bake
+docker buildx bake pg16
+docker buildx bake all
+```
+
+## Test Commands
+Testing is primarily done by running the built Docker images and verifying functionality:
+```bash
+# Run the built image
+docker run -it belo4ya/cnpg-postgresql:16.9-bookworm-ai
+
+# Test specific extensions within the container
+docker run -it belo4ya/cnpg-postgresql:16.9-bookworm-ai psql -c "CREATE EXTENSION vector;"
+```
 
 ## Code Style Guidelines
-- No specific style guides found in codebase
-- Follow standard Dockerfile best practices
-- Use multi-stage builds where appropriate
-- Pin base image versions explicitly
-- Use .dockerignore to exclude unnecessary files
 
-## Repository Structure
-- `extensions/docker/` - Docker build files and configurations
-- `mcp/` - Model Context Protocol configurations and samples
+### Dockerfile Structure
+- Multi-stage builds with builder, trimmed, and final stages
+- Alphabetical ordering of packages and extensions where possible
+- Clear section comments (e.g., `# --------------------- pgvector`)
+- Version pinning for all dependencies
 
-## Testing
-- No automated test framework identified
-- Manual testing through Docker build process
-- Validate images with `docker run` commands
+### Extension Management
+- Each extension gets its own commented section
+- Include GitHub repository link in comments
+- Use ARG variables for versioning
+- Install extensions in a consistent, predictable order
 
-## Important Notes
-- Project focused on PostgreSQL AI extensions in Docker
-- Uses buildx for multi-platform image building
-- Integrates with Cloud.ru services and opencode.ai
-- Check mcp/README.md for detailed usage instructions
+### Naming Conventions
+- Use lowercase with underscores for ARG variables
+- Use descriptive names for build stages
+- Follow semantic versioning for tags
+
+### Error Handling
+- Use `set -e` for failing on errors
+- Check exit codes for critical operations
+- Provide informative error messages
+
+### Formatting
+- Indent with spaces (2 or 4 spaces)
+- Line length maximum 120 characters
+- Consistent spacing around operators
+- Empty lines between logical sections
+
+### Makefile Standards
+- Use `?=` for overridable variables
+- Provide help text for complex targets
+- Use `.PHONY` for non-file targets
